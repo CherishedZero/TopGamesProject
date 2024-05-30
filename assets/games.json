@@ -1,0 +1,19 @@
+[{
+    "name": "Azure Dreams",
+    "genre": "Roguelike RPG",
+    "platform": "Playstation | Gameboy",
+    "year": 1997
+},
+  {
+    "name": "Monster Seed",
+    "genre": "RPG",
+    "platform": "Playstation",
+    "year": 1999
+  },
+  {
+    "name": "Dark Souls",
+    "genre": "Action RPG",
+    "platform": "Playstation | Xbox | PC",
+    "year": 2011
+  }
+]
