@@ -1,39 +1,41 @@
+import { useState } from 'react';
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 
-export default function Button({ label, onPress}) {
+export default function Button({ label, onPress, active}) {
   return (
-    <View style={styles.buttonContainer}>
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={active ? styles.button_active : styles.button} onPress={onPress}>
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    borderRadius: 18,
-    width: 60,
-    height: 60,
-    marginHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 1,
-    backgroundColor: "#444"
-  },
   button: {
+    backgroundColor: "#222",
     borderRadius: 10,
-    width: '100%',
-    height: '100%',
+    marginHorizontal: 10,
+    padding: 1,
+    width: 60,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  buttonIcon: {
-    paddingRight: 8,
+  button_active: {
+    backgroundColor: 'darkorange',
+    borderRadius: 10,
+    marginHorizontal: 10,
+    border: '10px solid blue',
+    padding: 1,
+    width: 60,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   buttonLabel: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
+    textAlign: 'center',
   },
 });

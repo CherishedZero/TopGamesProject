@@ -19,14 +19,17 @@ export default function App() {
   }
 
   const imageList = [adImage, msImage, dsImage];
+  const gameCount = [0, 1, 2];
+  const gameNames = ["Azure Dreams", "Monster Seed", "Dark Souls"];
 
   return (
     <View style={styles.container}>
+      <Text style={{fontSize:60}}>Top 3 Games</Text>
       <Game games={games} imageList={imageList} gameIndex={gameIndex} />
       <View style={styles.buttonsContainer}>
-        <Button label={'Game1'} onPress={() => handleGamePress(0)} />
-        <Button label={'Game2'} onPress={() => handleGamePress(1)} />
-        <Button label={'Game3'} onPress={() => handleGamePress(2)} />
+      {gameCount.map( index => (
+        <Button label={gameNames[index]} onPress={() => handleGamePress(index)} active={index===gameIndex} />
+      ))}
       </View>
       <StatusBar style="auto" />
     </View>
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonsContainer: {
-    flex: 1/3,
+    flex: 1/2,
     alignItems: 'center',
     flexDirection: 'row',
   },
