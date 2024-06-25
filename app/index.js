@@ -1,15 +1,10 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Game from './components/games.js';
-import Button from './components/button.js';
+import Game from '../components/games.js';
+import Button from '../components/button.js';
 
-import games from './assets/games.json';
-
-const dsImage = require('./assets/DarkSouls.jpg');
-const adImage = require('./assets/AzureDreams.jpg');
-const msImage = require('./assets/MonsterSeed.jpg');
-
+import games from '../assets/games.json';
 
 export default function App() {
   const [gameIndex, setGameIndex] = useState(0);
@@ -18,17 +13,13 @@ export default function App() {
       setGameIndex(index);
   }
 
-  const imageList = [adImage, msImage, dsImage];
-  const gameCount = [0, 1, 2];
-  const gameNames = [games[0].name, games[1].name, games[2].name];
-
   return (
     <View style={styles.container}>
       <Text style={{fontSize:60}}>Top 3 Games</Text>
-      <Game games={games} imageList={imageList} gameIndex={gameIndex} />
+      <Game games={games} gameIndex={gameIndex} />
       <View style={styles.buttonsContainer}>
-      {gameCount.map( index => (
-        <Button label={gameNames[index]} onPress={() => handleGamePress(index)} active={index===gameIndex} />
+      {games.map( info => (
+        <Button label={info.name} onPress={() => handleGamePress(info.index)} active={info.index===gameIndex} />
       ))}
       </View>
       <StatusBar style="auto" />
@@ -44,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonsContainer: {
-    flex: 1/2,
+    flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
   },
