@@ -7,36 +7,23 @@ import { useContext, useState } from 'react';
 export default function Page() {
   const { game, setGame } = useContext(GameContext);
 
-  const [ index, setIndex ] = useState(0);
-  const [ indexDisplay, setIndexDisplay ] = useState("0")
-  const [ gameName, setGameName ] = useState(game[index].name);
-  const [ gamePlatforms, setGamePlatforms ] = useState(game[index].platform);
-  const [ gameGenre, setGameGenre ] = useState(game[index].genre);
-  const [ gameYear, setGameYear ] = useState(game[index].year);
-  const [ gameURL, setGameURL ] = useState(game[index].imageURL);
-
-  const updatePlatforms = (text) => {
-    const platforms = text.split(',').join(' | ');
-    setGamePlatforms(platforms);
-  }
+  const [ index, setIndex ] = useState("0");
+  const [ gameName, setGameName ] = useState("");
+  const [ gamePlatforms, setGamePlatforms ] = useState("");
+  const [ gameGenre, setGameGenre ] = useState("");
+  const [ gameYear, setGameYear ] = useState("");
+  const [ gameURL, setGameURL ] = useState("");
 
   const updateGame = () => {
-    console.log(gameName);
-    let obj = {
-        "name": gameName,
-        "genre": gameGenre,
-        "platform": gamePlatforms,
-        "year": gameYear,
-        "imageURL": gameURL,
-        "index": index
-    }
-    setGame([obj, [game[1], game[2]]]);
-  }
-
-  const updateIndex = (text) => {
-  setIndexDisplay(text);
-    if( !isNaN(text) && text != "") {
-        setIndex(parseInt(text)-1);
+    if( !isNaN(index) && index != "") {
+        game.splice([parseInt(index)-1], 1, {
+            "name": gameName,
+            "genre": gameGenre,
+            "platform": gamePlatforms,
+            "year": gameYear,
+            "imageURL": gameURL,
+            "index": parseInt(index)-1
+        });
     }
   }
 
@@ -51,25 +38,27 @@ export default function Page() {
         <Text>Platform(s)</Text>
         <TextInput
             style={styles.input}
-            onChangeText={updatePlatforms}
+            onChangeText={setGamePlatforms}
         />
         <Text>Genre</Text>
         <TextInput
             style={styles.input}
+            onChangeText={setGameGenre}
         />
         <Text>Initial Release</Text>
         <TextInput
             style={styles.input}
+            onChangeText={setGameYear}
         />
         <Text>Image URL</Text>
         <TextInput
             style={styles.input}
+            onChangeText={setGameURL}
         />
         <Text>Ranking (1-3)</Text>
         <TextInput
             style={styles.input}
-            onChangeText={updateIndex}
-            value={indexDisplay}
+            onChangeText={setIndex}
         />
         <Button
             label={"Update"}
