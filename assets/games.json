@@ -4,7 +4,7 @@
     "platform": "Playstation,Gameboy",
     "year": 1997,
     "imageURL": "https://s.uvlist.net/l/y2007/01/33514.jpg",
-    "index": 0
+    "index": 1
 },
   {
     "name": "Monster Seed",
@@ -12,7 +12,7 @@
     "platform": "Playstation",
     "year": 1999,
     "imageURL": "https://www.video-games-museum.com/en/boxart/Playstation/36015_us-Monster-Seed.jpg",
-    "index": 1
+    "index": 2
   },
   {
     "name": "Dark Souls",
@@ -20,6 +20,6 @@
     "platform": "Playstation,Xbox,PC",
     "year": 2011,
     "imageURL": "http://www.firsthour.net/screenshots/dark-souls/dark-souls-cover-thumb.jpg",
-    "index": 2
+    "index": 3
   }
 ]
