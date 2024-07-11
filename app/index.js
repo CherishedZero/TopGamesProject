@@ -35,7 +35,7 @@ export default function App() {
 
       return (
         <View style={styles.container}>
-          <Text style={{fontSize:60}}>Top 3 Games</Text>
+          <Text style={{fontSize:60}}>Top {games.length} Games</Text>
           <Game game={game} gameIndex={gameIndex} />
           <View style={styles.buttonsContainer}>
             <Button label={"<"} onPress={() => handleGamePress(gameIndex - 1)} active={0 < gameIndex} />

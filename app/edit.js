@@ -37,17 +37,20 @@ export default function Page() {
 //            "imageURL": gameURL,
 //            "index": parseInt(index)-1
 //        });
-        console.log("check 1");
         if (parseInt(index) < games.length+1) {
-            console.log("check 2");
             async function updateTable() {
-                console.log("check 3");
                 const query = "UPDATE games SET name = \""+ gameName + "\", genre = \""+ gameGenre + "\", platform = \""+ gamePlatforms + "\", year = "+ gameYear + ", imageURL = \""+ gameURL + "\"  WHERE gameIndex = " + parseInt(index) + ";";
-                console.log(query);
-                const result = await db.runAsync(query);
-                console.log("check 5");
+                await db.runAsync(query);
             }
             updateTable().catch(function () {
+                // This exists to stop it from pushing an unhandled promise rejection error
+            });
+        }
+        if (parseInt(index) == games.length+1) {
+            async function insertNewEntry() {
+                await db.runAsync('INSERT INTO games (name, genre, platform, year, imageURL) VALUES (?, ?, ?, ?, ?)', gameName, gameGenre, gamePlatforms, gameYear, gameURL);
+            }
+            insertNewEntry().catch(function () {
                 // This exists to stop it from pushing an unhandled promise rejection error
             });
         }
