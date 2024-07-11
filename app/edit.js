@@ -2,10 +2,23 @@ import { Text, Pressable, View, TextInput, StyleSheet} from 'react-native';
 import { Link } from 'expo-router';
 import Button from '../components/button';
 import { GameContext } from '../components/gamesContext.js';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { useSQLiteContext } from 'expo-sqlite';
 
 export default function Page() {
+  const db = useSQLiteContext();
   const { game, setGame } = useContext(GameContext);
+  const [games, setGames] = useState(db);
+  useEffect(() => {
+    async function getGames() {
+        const tempGames = await db.getAllAsync('SELECT * FROM games');
+        setGames(tempGames);
+        setGame(tempGames[gameIndex])
+    }
+    getGames().catch(function () {
+        // This exists to stop it from pushing an unhandled promise rejection error
+    });
+  }, [games]);
 
   const [ index, setIndex ] = useState("0");
   const [ gameName, setGameName ] = useState("");
@@ -16,16 +29,30 @@ export default function Page() {
 
   const updateGame = () => {
     if( !isNaN(index) && index != "") {
-        game.splice([parseInt(index)-1], 1, {
-            "name": gameName,
-            "genre": gameGenre,
-            "platform": gamePlatforms,
-            "year": gameYear,
-            "imageURL": gameURL,
-            "index": parseInt(index)-1
-        });
+//        game.splice([parseInt(index)-1], 1, {
+//            "name": gameName,
+//            "genre": gameGenre,
+//            "platform": gamePlatforms,
+//            "year": gameYear,
+//            "imageURL": gameURL,
+//            "index": parseInt(index)-1
+//        });
+        console.log("check 1");
+        if (parseInt(index) < games.length+1) {
+            console.log("check 2");
+            async function updateTable() {
+                console.log("check 3");
+                const query = "UPDATE games SET name = \""+ gameName + "\", genre = \""+ gameGenre + "\", platform = \""+ gamePlatforms + "\", year = "+ gameYear + ", imageURL = \""+ gameURL + "\"  WHERE gameIndex = " + parseInt(index) + ";";
+                console.log(query);
+                const result = await db.runAsync(query);
+                console.log("check 5");
+            }
+            updateTable().catch(function () {
+                // This exists to stop it from pushing an unhandled promise rejection error
+            });
+        }
     }
-  }
+   }
 
   return (
     <>
@@ -55,7 +82,7 @@ export default function Page() {
             style={styles.input}
             onChangeText={setGameURL}
         />
-        <Text>Ranking (1-3)</Text>
+        <Text>Rank (1-{games.length+1})</Text>
         <TextInput
             style={styles.input}
             onChangeText={setIndex}

@@ -3,49 +3,49 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Game from '../components/games.js';
 import Button from '../components/button.js';
-
-//import games from '../assets/games.json';
 import { useSQLiteContext } from 'expo-sqlite';
 
 export default function App() {
   const db = useSQLiteContext();
-  const [game, setGame] = useState(0);
-  const [gameIndex, setGameIndex] = useState(1);
-  const [games, setGames] = useState(0);
+  const [gameIndex, setGameIndex] = useState(0);
+  const [game, setGame] = useState(db[gameIndex]);
+  const [games, setGames] = useState(db);
   useEffect(() => {
-    async function getGame() {
+    async function getGames() {
         const tempGames = await db.getAllAsync('SELECT * FROM games');
-        const start = await db.getFirstAsync('SELECT * FROM games WHERE gameIndex=?',gameIndex);
-        setGame(start);
         setGames(tempGames);
-        console.log(game);
-        console.log(games);
+        setGame(tempGames[gameIndex])
     }
-    getGame();
-  }, []);
+    getGames().catch(function () {
+        // This exists to stop it from pushing an unhandled promise rejection error
+    });
+  }, [games]);
 
   const handleGamePress = (index) => {
-      setGameIndex(index);
+      if(index >= 0 && index < games.length) {
+        setGameIndex(index);
+      }
   }
 
   if( game == null) {
       return (
           <Text>Loading</Text>
       )
-  }
+  } else {
 
-  return (
-    <View style={styles.container}>
-      <Text style={{fontSize:60}}>Top 3 Games</Text>
-      <Game game={game} gameIndex={gameIndex} />
-      <View style={styles.buttonsContainer}>
-        <Button label={games[0].name} onPress={() => handleGamePress(games[0].gameIndex)} active={games[0].gameIndex===gameIndex} />
-        <Button label={games[1].name} onPress={() => handleGamePress(games[1].gameIndex)} active={games[1].gameIndex===gameIndex} />
-        <Button label={games[2].name} onPress={() => handleGamePress(games[2].gameIndex)} active={games[2].gameIndex===gameIndex} />
-      </View>
-      <StatusBar style="auto" />
-    </View>
-  );
+      return (
+        <View style={styles.container}>
+          <Text style={{fontSize:60}}>Top 3 Games</Text>
+          <Game game={game} gameIndex={gameIndex} />
+          <View style={styles.buttonsContainer}>
+            <Button label={"<"} onPress={() => handleGamePress(gameIndex - 1)} active={0 < gameIndex} />
+            <Button label={gameIndex+1} />
+            <Button label={">"} onPress={() => handleGamePress(gameIndex + 1)} active={games.length-1 > gameIndex} />
+          </View>
+          <StatusBar style="auto" />
+        </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
