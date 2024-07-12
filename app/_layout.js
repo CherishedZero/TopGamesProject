@@ -32,6 +32,7 @@ export default function HomeLayout() {
 const styles = StyleSheet.create( {
     container: {
         flex: 1,
+        backgroundColor: '#000',
         justifyContent: 'top',
         alignItems: 'center',
         paddingTop: 20,

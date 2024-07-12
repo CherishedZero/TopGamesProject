@@ -16,7 +16,9 @@ export default function App() {
         setGames(tempGames);
         setGame(tempGames[gameIndex])
     }
-    getGames();
+    getGames().catch(function () {
+        // This would be a handler for unhandled promise rejection error
+    });;
   }, [games]);
 
   const handleGamePress = (index) => {
@@ -33,7 +35,7 @@ export default function App() {
 
       return (
         <View style={styles.container}>
-          <Text style={{fontSize:50}}>Top {games.length} Games</Text>
+          <Text style={{fontSize:50, color:'lightgray'}}>Top {games.length} Games</Text>
           <Game game={game} gameIndex={gameIndex} />
           <View style={styles.buttonsContainer}>
             <Button label={"<"} onPress={() => handleGamePress(gameIndex - 1)} active={0 < gameIndex} />
@@ -49,7 +51,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
   },

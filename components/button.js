@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     color: 'darkorange'
   },
   buttonLabel: {
-    color: '#fff',
+    color: 'lightgray',
     fontSize: 14,
     textAlign: 'center',
   },
