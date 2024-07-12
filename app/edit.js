@@ -1,24 +1,21 @@
 import { Text, Pressable, View, TextInput, StyleSheet} from 'react-native';
 import { Link } from 'expo-router';
 import Button from '../components/button';
-import { GameContext } from '../components/gamesContext.js';
 import { useContext, useState, useEffect } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 
 export default function Page() {
   const db = useSQLiteContext();
-  const { game, setGame } = useContext(GameContext);
   const [games, setGames] = useState(db);
   useEffect(() => {
     async function getGames() {
         const tempGames = await db.getAllAsync('SELECT * FROM games');
         setGames(tempGames);
-        setGame(tempGames[gameIndex])
     }
     getGames().catch(function () {
-        // This exists to stop it from pushing an unhandled promise rejection error
+        // This exists to stop it from pushing an unhandled promise rejection error, this is not proper code
     });
-  }, [games]);
+  });
 
   const [ index, setIndex ] = useState("0");
   const [ gameName, setGameName ] = useState("");
@@ -28,22 +25,13 @@ export default function Page() {
   const [ gameURL, setGameURL ] = useState("");
 
   const updateGame = () => {
-    if( !isNaN(index) && index != "") {
-//        game.splice([parseInt(index)-1], 1, {
-//            "name": gameName,
-//            "genre": gameGenre,
-//            "platform": gamePlatforms,
-//            "year": gameYear,
-//            "imageURL": gameURL,
-//            "index": parseInt(index)-1
-//        });
+    if( !isNaN(index) && index != "" && parseInt(index) > 0) {
         if (parseInt(index) < games.length+1) {
             async function updateTable() {
-                const query = "UPDATE games SET name = \""+ gameName + "\", genre = \""+ gameGenre + "\", platform = \""+ gamePlatforms + "\", year = "+ gameYear + ", imageURL = \""+ gameURL + "\"  WHERE gameIndex = " + parseInt(index) + ";";
-                await db.runAsync(query);
+                await db.runAsync("UPDATE games SET name = ?, genre = ?, platform = ?, year = ?, imageURL = ? WHERE gameIndex = ?;", gameName, gameGenre, gamePlatforms, gameYear, gameURL, parseInt(index));
             }
             updateTable().catch(function () {
-                // This exists to stop it from pushing an unhandled promise rejection error
+                console.log("Update");
             });
         }
         if (parseInt(index) == games.length+1) {
@@ -51,7 +39,7 @@ export default function Page() {
                 await db.runAsync('INSERT INTO games (name, genre, platform, year, imageURL) VALUES (?, ?, ?, ?, ?)', gameName, gameGenre, gamePlatforms, gameYear, gameURL);
             }
             insertNewEntry().catch(function () {
-                // This exists to stop it from pushing an unhandled promise rejection error
+                console.log("Insert");
             });
         }
     }

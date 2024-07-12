@@ -1,10 +1,10 @@
-import { Image, Text } from 'react-native';
+import { StyleSheet, Image, Text } from 'react-native';
 
 export default function Game( props ) {
     return (
     <>
-        <Text style={{fontSize:40}}>{props.game.name}</Text>
-        <Image style={{ width: 320, height: 440, borderRadius: 18, resizeMode: 'stretch' }}
+        <Text style={{fontSize:30}}>{props.game.name}</Text>
+        <Image style={styles.image}
         source={{uri: props.game.imageURL}} />
         <Text>Platforms: {props.game.platform}</Text>
         <Text>Genre: {props.game.genre}</Text>
@@ -12,3 +12,14 @@ export default function Game( props ) {
     </>
     );
 }
+
+const styles = StyleSheet.create({
+    image: {
+        borderRadius: 18,
+        width: 320,
+        height: 440,
+        resizeMode: 'stretch',
+        borderWidth: 3,
+        borderColor: '#000',
+    }
+});

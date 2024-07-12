@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Slot } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
-import { GameContext } from '../components/gamesContext.js';
 import NavBar from '../components/navbar';
 import { SQLiteProvider, useSQLiteContext, type SQLiteDatabase } from 'expo-sqlite';
 
@@ -28,8 +27,6 @@ export default function HomeLayout() {
          await db.runAsync('INSERT INTO games (name, genre, platform, year, imageURL) VALUES (?, ?, ?, ?, ?)', "Monster Seed", "RPG", "Playstation", 1999, "https://www.video-games-museum.com/en/boxart/Playstation/36015_us-Monster-Seed.jpg");
          await db.runAsync('INSERT INTO games (name, genre, platform, year, imageURL) VALUES (?, ?, ?, ?, ?)', "Dark Souls", "Action RPG", "Playstation,Xbox,PC", 2011, "http://www.firsthour.net/screenshots/dark-souls/dark-souls-cover-thumb.jpg");
      }
-     const firstRow = await db.getFirstAsync('SELECT * FROM games');
-     console.log(firstRow.name, firstRow.genre, firstRow.platform, firstRow.year, firstRow.imageURL, firstRow.gameIndex);
  }
 
 const styles = StyleSheet.create( {
