@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import Game from '../components/games.js';
 import { Button } from '@rneui/base';
 import { Icon } from '@rneui/themed';
@@ -34,17 +34,16 @@ export default function App() {
           <Text>Loading</Text>
       )
   } else {
-
       return (
         <View style={styles.container}>
           <Text style={{fontSize:50, color:'lightgray'}}>Top {games.length} Games</Text>
           <Game game={game} gameIndex={gameIndex} />
           <View style={styles.buttonsContainer}>
-            <Button onPress={() => handleGamePress(gameIndex - 1)} buttonStyle={0 < gameIndex ? Object.assign({}, styles.button, styles.active) : styles.button}>
+            <Button onPress={() => handleGamePress(gameIndex - 1)} buttonStyle={0 < gameIndex ? Object.assign({}, styles.leftButton, styles.active) : styles.leftButton}>
                 <AntIcon name="arrowleft" color="white" />
             </Button>
-            <Text style={styles.buttonLabel}>{gameIndex+1}</Text>
-            <Button onPress={() => handleGamePress(gameIndex + 1)} buttonStyle={games.length-1 > gameIndex ? Object.assign({}, styles.button, styles.active) : styles.button}>
+            <Text style={styles.indexDisplay}>Rank {gameIndex+1}</Text>
+            <Button onPress={() => handleGamePress(gameIndex + 1)} buttonStyle={games.length-1 > gameIndex ? Object.assign({}, styles.rightButton, styles.active) : styles.rightButton}>
                 <AntIcon name="arrowright" color="white" />
             </Button>
           </View>
@@ -66,9 +65,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  button: {
+  active: {
+    borderColor: 'darkorange',
+    color: 'darkorange'
+  },
+  buttonLabel: {
+    color: 'lightgray',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  indexDisplay: {
     backgroundColor: "#222",
+    borderWidth: 2,
     borderRadius: 10,
+    borderColor: "darkorange",
+    marginHorizontal: 10,
+    padding: 10,
+    paddingHorizontal: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    color: 'lightgray',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  leftButton: {
+    backgroundColor: "#222",
     borderWidth: 5,
     borderColor: "#999",
     marginHorizontal: 10,
@@ -78,14 +100,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    borderBottomLeftRadius: 50,
+    borderTopLeftRadius: 50,
   },
-  active: {
-    borderColor: 'darkorange',
-    color: 'darkorange'
-  },
-  buttonLabel: {
-    color: 'lightgray',
-    fontSize: 14,
-    textAlign: 'center',
+  rightButton: {
+    backgroundColor: "#222",
+    borderWidth: 5,
+    borderColor: "#999",
+    marginHorizontal: 10,
+    padding: 1,
+    width: 60,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    borderBottomRightRadius: 50,
+    borderTopRightRadius: 50,
   },
 });

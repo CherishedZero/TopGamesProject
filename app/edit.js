@@ -1,8 +1,9 @@
 import { Text, Pressable, View, TextInput, StyleSheet, Image} from 'react-native';
 import { Link } from 'expo-router';
-import Button from '../components/button';
+import { Button } from '@rneui/base';
 import { useContext, useState, useEffect } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
+import { Card } from '@rneui/themed';
 
 export default function Page() {
   const db = useSQLiteContext();
@@ -54,6 +55,7 @@ export default function Page() {
 
   return (
     <>
+      <Card containerStyle={styles.invisibleBack}>
         <Text style={styles.text}>Game Name</Text>
         <TextInput
             style={styles.input}
@@ -85,14 +87,16 @@ export default function Page() {
             style={styles.input}
             onChangeText={setIndex}
         />
-        <Button
-            label={"Update"}
-            onPress={updateGame}
-        />
-        <Image style={styles.image}
-        source={{uri: currentFace}} />
+      </Card>
+      <Button
+          title="Update"
+          onPress={updateGame}
+          buttonStyle={styles.button}
+      />
+      <Image style={styles.image}
+      source={{uri: currentFace}} />
     </>
-    )
+  )
 }
 
 const styles = StyleSheet.create( {
@@ -100,12 +104,14 @@ const styles = StyleSheet.create( {
         height: 30,
         width: 200,
         borderWidth: 1,
+        borderRadius: 10,
         marginBottom: 8,
+        paddingLeft: 10,
         backgroundColor: "#222",
         color: 'lightgray'
     },
     text: {
-        marginTop: 16,
+        marginTop: 10,
         color:'lightgray',
     },
     image: {
@@ -115,5 +121,22 @@ const styles = StyleSheet.create( {
         height: 150,
         resizeMode: 'stretch',
         tintColor: '#fff'
+    },
+    button: {
+        backgroundColor: "#222",
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "darkorange",
+        marginHorizontal: 10,
+        padding: 1,
+        width: 150,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
+    invisibleBack: {
+        backgroundColor: "transparent",
+        borderColor: "transparent",
     }
 });
